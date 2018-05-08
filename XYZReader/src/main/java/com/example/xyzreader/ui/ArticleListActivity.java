@@ -49,7 +49,7 @@ import java.util.Map;
  * activity presents a grid of items as cards.
  */
 public class ArticleListActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<Cursor> {
+        LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = ArticleListActivity.class.toString();
     private Toolbar mToolbar;
@@ -160,6 +160,13 @@ public class ArticleListActivity extends AppCompatActivity implements
         }else {
             mSnackbarShown = savedInstanceState.getBoolean("snackbar_shown");
         }
+
+
+        // TODO 48 ) Refreshing SwipeRefreshLayout
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
+
+
     }
 
     // TODO 30 ) Overriding onActivityReenter for letting Detail Activity send a hint about its state
@@ -264,6 +271,13 @@ public class ArticleListActivity extends AppCompatActivity implements
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean("snackbar_shown", mSnackbarShown);
+    }
+
+    @Override
+    public void onRefresh() {
+        if(mRecyclerView.getChildCount()>0){
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     private class Adapter extends RecyclerView.Adapter<ViewHolder> {
