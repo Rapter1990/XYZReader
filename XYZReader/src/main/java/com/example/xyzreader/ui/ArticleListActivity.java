@@ -275,9 +275,10 @@ public class ArticleListActivity extends AppCompatActivity implements
 
     @Override
     public void onRefresh() {
-        if(mRecyclerView.getChildCount()>0){
+        /*if(mRecyclerView.getChildCount()>0){
             mSwipeRefreshLayout.setRefreshing(false);
-        }
+        }*/
+        startService(new Intent(this, UpdaterService.class));
     }
 
     private class Adapter extends RecyclerView.Adapter<ViewHolder> {
